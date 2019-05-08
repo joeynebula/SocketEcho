@@ -14,21 +14,20 @@ import okio.ByteString
 class MainActivity : AppCompatActivity() {
     private var start: Button? = null
     private var output: TextView? = null
-    private var client: OkHttpClient? = null
+    //to inject
+    private val socketService: ISocketService? = SocketService()
 
     private inner class EchoWebSocketListener : WebSocketListener() {
 
-        private val NORMAL_CLOSURE_STATUS = 1000
+
 
         override fun onOpen(webSocket: WebSocket, response: Response?) {
-            webSocket.send("Hello, it's SSaurel !")
-            webSocket.send("What's up ?")
-            webSocket.send(ByteString.decodeHex("deadbeef"))
-            webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !")
+            output("Attempting to open socket connection")
+            output(response?.message() ?: "No message on open")
         }
 
-        override fun onMessage(webSocket: WebSocket?, text: String?) {
-            output("Receiving : " + text!!)
+        override fun onMessage(webSocket: WebSocket, text: String) {
+            output("Receiving : $text")
         }
 
         override fun onMessage(webSocket: WebSocket?, bytes: ByteString) {
@@ -36,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String?) {
-            webSocket.close(NORMAL_CLOSURE_STATUS, null)
             output("Closing : $code / $reason")
         }
 
@@ -49,20 +47,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        start = findViewById(R.id.start) as Button
-        output = findViewById(R.id.output) as TextView
-        client = OkHttpClient()
-        start!!.setOnClickListener { start() }
+        start = findViewById<Button>(R.id.start)
+        output = findViewById<TextView>(R.id.output)
+        start?.setOnClickListener {
+            socketService?.start(EchoWebSocketListener())
+        }
     }
 
-    private fun start() {
-        val request = Request.Builder().url("ws://demos.kaazing.com/echo").build()
-        val listener = EchoWebSocketListener()
-        val ws = client!!.newWebSocket(request, listener)
-        client!!.dispatcher().executorService().shutdown()
-    }
+
 
     private fun output(txt: String) {
-       runOnUiThread { output!!.text = output!!.text.toString() + "\n\n" + txt }
+       runOnUiThread { output?.text = output!!.text.toString() + "\n\n" + txt }
     }
 }
