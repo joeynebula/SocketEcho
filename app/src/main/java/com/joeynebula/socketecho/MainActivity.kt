@@ -2,6 +2,7 @@ package com.joeynebula.socketecho
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import okhttp3.OkHttpClient
@@ -12,10 +13,12 @@ import okhttp3.WebSocketListener
 import okio.ByteString
 
 class MainActivity : AppCompatActivity() {
-    private var start: Button? = null
-    private var output: TextView? = null
+    private lateinit var start: Button
+    private lateinit var output: TextView
+    private lateinit var sendBt: Button
+    private lateinit var inputTextTv: AutoCompleteTextView
     //to inject
-    private val socketService: ISocketService? = SocketService()
+    private val socketService: ISocketService = SocketService()
 
     private inner class EchoWebSocketListener : WebSocketListener() {
 
@@ -49,14 +52,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         start = findViewById<Button>(R.id.start)
         output = findViewById<TextView>(R.id.output)
-        start?.setOnClickListener {
-            socketService?.start(EchoWebSocketListener())
+        inputTextTv = findViewById<AutoCompleteTextView>(R.id.inputTextTv)
+        sendBt = findViewById<Button>(R.id.sendBt)
+
+        sendBt.setOnClickListener {
+            socketService.send(inputTextTv.text.toString())
+            //empty it out on send
+            inputTextTv.setText("")
+        }
+        start.setOnClickListener {
+            socketService.start(EchoWebSocketListener())
+            sendBt.isEnabled = true
         }
     }
 
 
 
     private fun output(txt: String) {
-       runOnUiThread { output?.text = output!!.text.toString() + "\n\n" + txt }
+       runOnUiThread { output?.text = "${output!!.text}\n\n$txt" }
     }
 }
