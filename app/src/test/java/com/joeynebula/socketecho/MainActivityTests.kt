@@ -1,10 +1,8 @@
 package com.joeynebula.socketecho
 
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ToggleButton
+import android.widget.*
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.singleBy
@@ -12,13 +10,14 @@ import org.koin.standalone.StandAloneContext.startKoin
 import org.robolectric.Robolectric
 
 class MainActivityTests : AndroidTest() {
-    @Before
-    fun before(){
-        val mockModule = module {
-            singleBy<ISocketService, MockSocketService>()
-        }
+    companion object {
+        init {
+            val mockModule = module {
+                singleBy<ISocketService, MockSocketService>()
+            }
 
-        startKoin(listOf(mockModule))
+            startKoin(listOf(mockModule))
+        }
     }
 
     /*
@@ -32,7 +31,7 @@ class MainActivityTests : AndroidTest() {
         val activity = Robolectric.setupActivity(MainActivity::class.java)
         val startButton = activity.findViewById<ToggleButton>(R.id.startTb)
 
-        val outputEt = activity.findViewById<EditText>(R.id.output)
+        val outputEt = activity.findViewById<TextView>(R.id.output)
 
         startButton.performClick()
 
