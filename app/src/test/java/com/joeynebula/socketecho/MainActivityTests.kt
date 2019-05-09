@@ -44,5 +44,7 @@ class MainActivityTests : AndroidTest() {
         val startButton = activity.findViewById<ToggleButton>(R.id.startTb)
         val sendButton = activity.findViewById<Button>(R.id.sendBt)
 
+        assert(!startButton.isChecked && !sendButton.isEnabled)
+
     }
 }
