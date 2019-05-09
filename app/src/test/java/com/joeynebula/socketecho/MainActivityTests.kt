@@ -1,5 +1,6 @@
 package com.joeynebula.socketecho
 
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ToggleButton
@@ -46,5 +47,19 @@ class MainActivityTests : AndroidTest() {
 
         assert(!startButton.isChecked && !sendButton.isEnabled)
 
+    }
+
+    @Test
+    fun inputShouldClearTextAfterSend(){
+        val activity = Robolectric.setupActivity(MainActivity::class.java)
+        val startButton = activity.findViewById<ToggleButton>(R.id.startTb)
+        val sendButton = activity.findViewById<Button>(R.id.sendBt)
+        val inputEt = activity.findViewById<AutoCompleteTextView>(R.id.inputTextTv)
+
+        startButton.performClick()
+        inputEt.setText("Hello")
+        sendButton.performClick()
+
+        assert(inputEt.text.isBlank())
     }
 }

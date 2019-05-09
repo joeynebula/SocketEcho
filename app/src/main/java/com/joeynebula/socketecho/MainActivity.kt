@@ -43,6 +43,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        socketService.close()
+    }
+
+
 
 
     private fun output(txt: String) {
