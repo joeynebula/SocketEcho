@@ -1,8 +1,6 @@
 package com.joeynebula.socketecho
 
 import android.widget.*
-import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Test
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.singleBy
