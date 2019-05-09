@@ -3,8 +3,7 @@ package com.joeynebula.socketecho
 import okhttp3.*
 import okio.ByteString
 
-class SocketService : ISocketService {
-    private val client: OkHttpClient = OkHttpClient()
+class SocketService(private val client: OkHttpClient) : ISocketService {
     private  var outputCallback: (txt: String) -> Unit = {}
     private lateinit var request: Request
     private lateinit var socket: WebSocket

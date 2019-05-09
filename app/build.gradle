@@ -30,9 +30,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "com.github.tinder.scarlet:scarlet:$scarlet_version"
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'
 
+    // koin version
+    def koin_version = '1.0.2'
 
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    // or Koin for view model features
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    testImplementation "org.koin:koin-test:$koin_version"
 
 }
