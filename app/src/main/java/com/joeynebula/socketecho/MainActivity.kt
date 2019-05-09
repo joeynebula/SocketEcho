@@ -2,17 +2,11 @@ package com.joeynebula.socketecho
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
-import android.widget.ToggleButton
 import org.koin.android.ext.android.get
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var startTb: ToggleButton
-    private lateinit var output: TextView
-    private lateinit var sendBt: Button
-    private lateinit var inputTextTv: AutoCompleteTextView
     //to inject
     private lateinit var socketService: ISocketService
 
@@ -22,10 +16,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //injected from di
         socketService = get()
-        startTb = findViewById(R.id.startTb)
-        output = findViewById(R.id.output)
-        inputTextTv = findViewById(R.id.inputTextTv)
-        sendBt = findViewById(R.id.sendBt)
 
         sendBt.setOnClickListener {
             socketService.send(inputTextTv.text.toString())
