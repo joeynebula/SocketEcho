@@ -4,7 +4,7 @@ import okhttp3.*
 import okio.ByteString
 
 class SocketService(private val client: OkHttpClient) : ISocketService {
-    private  var outputCallback: (txt: String) -> Unit = {}
+    override var outputCallback: (txt: String) -> Unit = {}
     private lateinit var request: Request
     private lateinit var socket: WebSocket
     private val NORMAL_CLOSURE_STATUS = 1000

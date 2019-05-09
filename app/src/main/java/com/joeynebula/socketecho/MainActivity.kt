@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        //injected from di
         socketService = get()
         startTb = findViewById(R.id.startTb)
         output = findViewById(R.id.output)
